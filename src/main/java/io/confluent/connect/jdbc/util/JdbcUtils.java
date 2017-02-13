@@ -90,10 +90,12 @@ public class JdbcUtils {
    */
   public static List<String> getTables(Connection conn, String schemaPattern, Set<String> types) throws SQLException {
     DatabaseMetaData metadata = conn.getMetaData();
+    Set<String>  typearray = new HashSet<String>();
+    typearray.add("TABLE");
     try (ResultSet rs = metadata.getTables(null, schemaPattern, "%", null)) {
       List<String> tableNames = new ArrayList<>();
       while (rs.next()) {
-        if (types.contains(rs.getString(GET_TABLES_TYPE_COLUMN))) {
+        if (typearray.contains(rs.getString(GET_TABLES_TYPE_COLUMN))) {
           String colName = rs.getString(GET_TABLES_NAME_COLUMN);
           // SQLite JDBC driver does not correctly mark these as system tables
           if (metadata.getDatabaseProductName().equals("SQLite") && colName.startsWith("sqlite_")) {
@@ -228,4 +230,3 @@ public class JdbcUtils {
     }
   }
 }
-

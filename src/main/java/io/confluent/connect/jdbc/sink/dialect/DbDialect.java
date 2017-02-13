@@ -267,6 +267,8 @@ public abstract class DbDialect {
         return new MySqlDialect();
       case "postgresql":
         return new PostgreSqlDialect();
+      case "db2":
+        return new Db2Dialect();    //DB2 Dialect class
       default:
         return new GenericDialect();
     }
